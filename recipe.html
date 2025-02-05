@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cookie Recipe Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Cookie Recipe</h1>
+    <main>
+        <h2>Adjustable Recipe</h2>
+        <p><strong>Default Recipe:</strong> Yields 12 cookies</p>
+        <div style="text-align: center;">
+            <ul id="ingredient-list">
+                <li>Flour: 240 ml</li>
+                <li>Sugar: 16 scoops</li>
+                <li>Butter: 8 spoon</li>
+                <li>Eggs: 2</li>
+            </ul>
+        </div>
+
+        <label for="quantity">Enter desired quantity of cookies:</label>
+        <input type="number" id="quantity" placeholder="e.g., 24">
+        <button onclick="updateRecipe()">Update Recipe</button>
+        <p class="error" id="error-message"></p>
+    </main>
+    <script>
+        // Original ingredient values for 12 cookies (converted to milliliters for flour)
+        const defaultIngredients = {
+            flour: 240,   // milliliters (equivalent to 1 cup)
+            sugar: 16,    // scoops
+            butter: 8,    // spoons
+            eggs: 2       // count
+        };
+
+        function updateRecipe() {
+            const quantityInput = document.getElementById('quantity');
+            const errorMessage = document.getElementById('error-message');
+            const ingredientList = document.getElementById('ingredient-list');
+
+            const desiredQuantity = parseInt(quantityInput.value, 10);
+
+            if (isNaN(desiredQuantity) || desiredQuantity <= 0) {
+                errorMessage.textContent = "Please enter a valid positive number!";
+                ingredientList.innerHTML = "";
+                return;
+            }
+
+            errorMessage.textContent = "";
+
+            // Adjust quantities based on the number of desired cookies
+            const flourAmount = (desiredQuantity * defaultIngredients.flour) / 12;  // Adjust flour in ml
+            const sugarAmount = Math.ceil(defaultIngredients.sugar * desiredQuantity / 12);
+            const butterAmount = Math.ceil(defaultIngredients.butter * desiredQuantity / 12);
+            const eggsAmount = Math.ceil(defaultIngredients.eggs * desiredQuantity / 12);
+
+            ingredientList.innerHTML = `
+            <li>Flour: ${flourAmount} ml</li>
+            <li>Sugar: ${sugarAmount} scoops</li>
+            <li>Butter: ${butterAmount} spoons</li>
+            <li>Eggs: ${eggsAmount}</li>
+        `;
+        }
+
+    </script>
+    <!-- Navigation Buttons -->
+    <nav>
+        <a href="homepage.html">🏠 Back to Home</a>
+    </nav>
+    <nav>
+        <a href="thankyou.html">End session</a>
+    </nav>
+</body>
+
+</html>
